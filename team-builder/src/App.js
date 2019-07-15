@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TeamForm from "./components/Form";
 import "semantic-ui-css/semantic.min.css";
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <div>{member.name}</div>
         ))}
       </div>
+      <TeamForm />
     </div>
   );
 };
