@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TeamForm from "./components/Form";
+import TeamMember from "./components/TeamMember";
 import "semantic-ui-css/semantic.min.css";
 
 const App = () => {
@@ -16,15 +17,29 @@ const App = () => {
     },
     { name: "Gilroy", email: "snazzyg@discoplanet.com", role: "Data Miner" }
   ]);
+
+  const [memberToEdit, setMemberToEdit] = useState({});
+
+  const addTeamMember = newMember => {
+    setTeamMembers([...teamMembers, newMember]);
+  };
+
+  const editTeamMember = () => {};
+
+  console.log(memberToEdit);
   return (
     <div>
       <h1>Here's the team!</h1>
       <div>
-        {teamMembers.map(member => (
-          <div>{member.name}</div>
+        {teamMembers.map((member, index) => (
+          <TeamMember
+            key={index}
+            setMemberToEdit={setMemberToEdit}
+            member={member}
+          />
         ))}
       </div>
-      <TeamForm />
+      <TeamForm memberToEdit={memberToEdit} addTeamMember={addTeamMember} />
     </div>
   );
 };
