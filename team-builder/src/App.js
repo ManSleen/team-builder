@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "semantic-ui-css/semantic.min.css";
 
-function App() {
+const App = () => {
+  const [teamMembers, setTeamMembers] = useState([
+    {
+      name: "James",
+      email: "jamesyboy@jdogg.net",
+      role: "Certified Internet Troll"
+    },
+    {
+      name: "Hank",
+      email: "hank@williamsjunior.org",
+      role: "Matrix Architect"
+    },
+    { name: "Gilroy", email: "snazzyg@discoplanet.com", role: "Data Miner" }
+  ]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Here's the team!</h1>
+      <div>
+        {teamMembers.map(member => (
+          <div>{member.name}</div>
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
