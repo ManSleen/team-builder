@@ -2,7 +2,6 @@ import React from "react";
 import { Card, Icon } from "semantic-ui-react";
 
 const TeamMember = ({ member, setMemberToEdit }) => {
-  console.log(member.key);
   return (
     <Card>
       <Card.Content>

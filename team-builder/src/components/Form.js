@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import { Button, Form } from "semantic-ui-react";
 
-const TeamForm = ({ memberToEdit, addTeamMember }) => {
+const TeamForm = ({
+  setMemberToEdit,
+  editTeamMember,
+  memberToEdit,
+  addTeamMember
+}) => {
   const [memberInfo, setMemberInfo] = useState({
     name: "",
     email: "",
@@ -10,21 +15,37 @@ const TeamForm = ({ memberToEdit, addTeamMember }) => {
   });
 
   const handleFormChanges = e => {
-    setMemberInfo({ ...memberInfo, [e.target.name]: e.target.value });
+    if (memberInfo.id) {
+      setMemberInfo({
+        ...memberInfo,
+        [e.target.name]: e.target.value
+      });
+    } else {
+      setMemberInfo({
+        ...memberInfo,
+        id: Date.now(),
+        [e.target.name]: e.target.value
+      });
+    }
   };
 
   const handleFormSubmit = e => {
     e.preventDefault();
-    console.log(memberInfo);
-    addTeamMember({ ...memberInfo });
+    if (memberToEdit) {
+      editTeamMember({ ...memberInfo });
+    } else {
+      addTeamMember({ ...memberInfo });
+    }
     setMemberInfo({
       name: "",
       email: "",
       role: ""
     });
+    setMemberToEdit(null);
   };
 
   useEffect(() => {
+    console.log(memberToEdit);
     setMemberInfo({ ...memberToEdit });
   }, [memberToEdit]);
 
