@@ -1,53 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../App.css";
 import { Button, Form } from "semantic-ui-react";
+import uuidv4 from "uuid/v4";
 
 const TeamForm = ({
-  setMemberToEdit,
+  addTeamMember,
+  memberInfo,
+  setMemberInfo,
+  isEditing,
   editTeamMember,
-  memberToEdit,
-  addTeamMember
+  teamMembers
 }) => {
-  const [memberInfo, setMemberInfo] = useState({
-    name: "",
-    email: "",
-    role: ""
-  });
+  const { id, name, email, role } = memberInfo;
 
   const handleFormChanges = e => {
-    if (memberInfo.id) {
-      setMemberInfo({
-        ...memberInfo,
-        [e.target.name]: e.target.value
-      });
-    } else {
-      setMemberInfo({
-        ...memberInfo,
-        id: Date.now(),
-        [e.target.name]: e.target.value
-      });
-    }
+    setMemberInfo({ ...memberInfo, [e.target.name]: e.target.value });
   };
 
   const handleFormSubmit = e => {
     e.preventDefault();
-    if (memberToEdit) {
-      editTeamMember({ ...memberInfo });
-    } else {
-      addTeamMember({ ...memberInfo });
-    }
+    isEditing
+      ? editTeamMember(id, role, email, name, teamMembers)
+      : addTeamMember({ id: uuidv4(), ...memberInfo });
+
     setMemberInfo({
       name: "",
       email: "",
       role: ""
     });
-    setMemberToEdit(null);
   };
-
-  useEffect(() => {
-    console.log(memberToEdit);
-    setMemberInfo({ ...memberToEdit });
-  }, [memberToEdit]);
 
   return (
     <div className="form-container">
@@ -55,7 +36,7 @@ const TeamForm = ({
         <Form.Field>
           <label>Name</label>
           <input
-            value={memberInfo.name}
+            value={name}
             onChange={handleFormChanges}
             type="text"
             name="name"
@@ -65,7 +46,7 @@ const TeamForm = ({
         <Form.Field>
           <label>Email</label>
           <input
-            value={memberInfo.email}
+            value={email}
             onChange={handleFormChanges}
             type="text"
             name="email"
@@ -75,14 +56,14 @@ const TeamForm = ({
         <Form.Field>
           <label>Role</label>
           <input
-            value={memberInfo.role}
+            value={role}
             onChange={handleFormChanges}
             type="text"
             name="role"
             placeholder="Please Enter Role"
           />
         </Form.Field>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">{isEditing ? "Edit" : "Submit"}</Button>
       </Form>
     </div>
   );
